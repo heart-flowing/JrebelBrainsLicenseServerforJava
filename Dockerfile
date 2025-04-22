@@ -1,7 +1,15 @@
-FROM java:8-jre-alpine
+# 使用多平台基础镜像
+FROM eclipse-temurin:8-jre-focal
 
-ENV PORT 8081
+# 设置默认端口
+ENV PORT=9057
 
-ADD target/JrebelBrainsLicenseServerforJava-1.0-SNAPSHOT-jar-with-dependencies.jar /JrebelBrains.jar
-CMD java -jar /JrebelBrains.jar -p $PORT
+# 声明暴露端口（可选）
+EXPOSE $PORT
 
+# 复制应用
+WORKDIR /app
+COPY JrebelBrainsLicenseServerforJava.jar JrebelBrains.jar
+
+# 启动命令（推荐写法）
+ENTRYPOINT ["sh", "-c", "java -jar JrebelBrains.jar -p ${PORT}"]
